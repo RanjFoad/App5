@@ -28,6 +28,9 @@ namespace App5
 
             SetInterfaceLocal("ku", this.BaseContext);
 
+            //ActionMenuView amvMain = FindViewById<ActionMenuView>(Resource.Id.actionMenuTop);
+            
+            //this.MenuInflater.Inflate(Resource.Menu.MainMenu, amvMain.Menu);
 
 
             int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
@@ -38,8 +41,8 @@ namespace App5
             txt_Progress = FindViewById<TextView>(Resource.Id.textView1);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.seekBar1);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
-            
-            sbSetPeriod.Max = int_MaxPeriod- int_MinPeriod;
+
+            sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
 
             //DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
             //ComponentName demoDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
@@ -71,26 +74,36 @@ namespace App5
                 StartActivity(int1);
 
             };
+        }
 
 
-            //private void Menu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
-            //{
-            //    int SelectedItem = e.Item.ItemId;
-            //    switch (SelectedItem)
-            //        {
-            //        case Resource.Id.new_game:
+            private void Menu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            int SelectedItem = e.Item.ItemId;
+            switch (SelectedItem)
+            {
+                case Resource.Id.IdEnglish:
 
-            //            break;
-            //        case Resource.Id.exit:
-            //            this.Finish();
-            //            break;
-            //    }
+                    break;
 
+                case Resource.Id.IdKurdish:
 
-            //}
+                    break;
+
+                case Resource.Id.exit:
+                    this.Finish();
+                    break;
+            }
+
 
         }
 
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
         private void SbSetPeriod_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
             string strMinute, strMinutes;
@@ -112,4 +125,5 @@ namespace App5
         }
     }
 }
+
 

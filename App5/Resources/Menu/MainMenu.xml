@@ -1,9 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/new_game"
-          android:title="new_game"
-          android:icon="@drawable/Icon"
-          android:showAsAction="ifRoom"/>
+    <item android:id="@+id/lanLanguage"
+          android:title="Language"
+          android:icon="@drawable/Icon">
+      <menu>
+        <item android:id="@+id/IdEnglish" android:title="English"></item>
+        <item android:id="@+id/IdKurdish" android:title="Kurdish"></item>
+      </menu>
+    
+  </item>
     <item android:id="@+id/help"
           android:title="help" />
     <item android:id="@+id/exit"
