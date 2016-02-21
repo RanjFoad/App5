@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Hello">دەست پێکە</string>
+    <string name="ApplicationName">Test App</string>
+  <string name="minute">خولەک</string>
+  <string name="minutes">خولەک</string>
+</resources>
