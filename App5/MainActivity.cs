@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using App5.Activities;
+using Android.Preferences;
 using System.Windows;
 using Android.App.Admin;
 using System.Resources;
@@ -26,6 +27,7 @@ namespace App5
         {
             base.OnCreate(bundle);
 
+            
             SetInterfaceLocal("ku", this.BaseContext);
 
             //ActionMenuView amvMain = FindViewById<ActionMenuView>(Resource.Id.actionMenuTop);
@@ -43,7 +45,7 @@ namespace App5
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
 
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
-
+            
             //DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
             //ComponentName demoDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
             //Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
@@ -76,24 +78,29 @@ namespace App5
             };
         }
 
-
-            private void Menu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            int SelectedItem = e.Item.ItemId;
+
+            int SelectedItem = item.ItemId;
             switch (SelectedItem)
             {
                 case Resource.Id.IdEnglish:
-
+                    SetInterfaceLocal("en", this.BaseContext);
                     break;
 
                 case Resource.Id.IdKurdish:
-
+                    SetInterfaceLocal("ku", this.BaseContext);
                     break;
 
                 case Resource.Id.exit:
                     this.Finish();
                     break;
             }
+            return base.OnOptionsItemSelected(item);
+        }
+        private void onOptionsItemSelected(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+           
 
 
         }
@@ -122,6 +129,38 @@ namespace App5
             Configuration conf = res.Configuration;
             conf.Locale = lclKurdish;
             ApplyContext.Resources.UpdateConfiguration(conf, ApplyContext.Resources.DisplayMetrics);
+
+        }
+        public bool SavePresestingData(string Key, string Value)
+        {
+            try
+            {
+                ISharedPreferences settings = this.GetSharedPreferences("AutoLock", FileCreationMode.Private);
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+                ISharedPreferencesEditor editor = prefs.Edit();
+                editor.PutString(Key,Value);
+                editor.Commit();
+                return true;
+            }
+
+            catch(Exception exp)
+            {
+                return false;
+            }
+        }
+        public string ReadPresestingData(string Key)
+        {
+            try
+            {
+                ISharedPreferences settings = this.GetSharedPreferences("AutoLock", FileCreationMode.Private);
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+                return prefs.GetString(Key, "");
+            }
+
+            catch (Exception exp)
+            {
+                return null;
+            }
         }
     }
 }
