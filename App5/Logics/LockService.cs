@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Preferences;
 
-namespace App1.Code
+namespace AutoLock.Logics
 {
     [Service]
     class LockService : Service
@@ -41,14 +41,14 @@ namespace App1.Code
             //{
 
             //}
-            Toast.MakeText(this, "Service Started", ToastLength.Long).Show();
+            Toast.MakeText(this, "Timer Started", ToastLength.Long).Show();
             return StartCommandResult.RedeliverIntent;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            Toast.MakeText(this, "Service Stopped", ToastLength.Long).Show();
+            Toast.MakeText(this, "Timer Stopped", ToastLength.Long).Show();
         }
     }
 }

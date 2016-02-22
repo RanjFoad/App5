@@ -13,6 +13,7 @@ using System.Resources;
 using Android.Content.Res;
 using Android.Util;
 using Java.Util;
+using AutoLock.Logics;
 
 namespace AutoLock
 {
@@ -64,7 +65,10 @@ namespace AutoLock
                 long lngDelay = (sbSetPeriod.Progress + int_MinPeriod) * 36000000;
                 SavePresestingLong("StartTime",dtNow.ToBinary());
                 SavePresestingLong("Duration", lngDelay);
-                Intent intService = new Intent(this, )
+                Intent intService = new Intent(this, typeof(LockService));
+                intService.PutExtra("StartTime", dtNow.ToBinary());
+                intService.PutExtra("Duration", lngDelay);
+                StartService(intService);
 
             }
             catch
