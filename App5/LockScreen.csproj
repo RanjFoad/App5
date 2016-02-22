@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>App5</RootNamespace>
-    <AssemblyName>App5</AssemblyName>
+    <RootNamespace>AutoLock</RootNamespace>
+    <AssemblyName>AutoLock</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -93,6 +93,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-ku\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Menu-ku\MainMenu.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

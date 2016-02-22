@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/lanLanguage"
-          android:title="Language"
+          android:title="زمان"
           android:icon="@drawable/Icon">
       <menu>
         <group android:checkableBehavior="single">
-          <item android:id="@+id/IdEnglish" android:title="English"></item>
-          <item android:id="@+id/IdKurdish" android:title="Kurdish"></item>
+          <item android:id="@+id/IdEnglish" android:title="ئینگلیزى"></item>
+          <item android:id="@+id/IdKurdish" android:title="کوردى"></item>
         </group>
       </menu>
     
   </item>
     <item android:id="@+id/help"
-          android:title="Help" />
+          android:title="یارمەتى" />
     <item android:id="@+id/exit"
-          android:title="Exit" />
+          android:title="دەرچون" />
 </menu>

@@ -5,7 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using App5.Activities;
+using AutoLock.Activities;
 using Android.Preferences;
 using System.Windows;
 using Android.App.Admin;
@@ -14,25 +14,23 @@ using Android.Content.Res;
 using Android.Util;
 using Java.Util;
 
-namespace App5
+namespace AutoLock
 {
-    [Activity(Label = "App5", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Auto Lock", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
 
         private SeekBar sbSetPeriod;
         private int int_MinPeriod, int_MaxPeriod;
         private TextView txt_Progress;
+        string Lang;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            
-            SetInterfaceLocal("ku", this.BaseContext);
+            Lang = ReadPresestingString("Lang");
+            SetInterfaceLocal(Lang, this.BaseContext);
 
-            //ActionMenuView amvMain = FindViewById<ActionMenuView>(Resource.Id.actionMenuTop);
-            
-            //this.MenuInflater.Inflate(Resource.Menu.MainMenu, amvMain.Menu);
 
 
             int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
@@ -86,10 +84,14 @@ namespace App5
             {
                 case Resource.Id.IdEnglish:
                     SetInterfaceLocal("en", this.BaseContext);
+                    SavePresestingString("Lang","en");
+                    RestartActivity();
                     break;
 
                 case Resource.Id.IdKurdish:
                     SetInterfaceLocal("ku", this.BaseContext);
+                    SavePresestingString("Lang", "ku");
+                    RestartActivity();
                     break;
 
                 case Resource.Id.exit:
@@ -98,17 +100,14 @@ namespace App5
             }
             return base.OnOptionsItemSelected(item);
         }
-        private void onOptionsItemSelected(object sender, PopupMenu.MenuItemClickEventArgs e)
-        {
-           
-
-
-        }
-
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+            if (Lang == "ku")
+                menu.FindItem(Resource.Id.IdKurdish).SetChecked( true);
+            else
+                menu.FindItem(Resource.Id.IdEnglish).SetChecked(true);
             return base.OnCreateOptionsMenu(menu);
         }
         private void SbSetPeriod_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
@@ -117,8 +116,8 @@ namespace App5
             strMinute = Resources.GetString(Resource.String.minute);
             strMinutes = Resources.GetString(Resource.String.minutes);
             int int_Pos = sbSetPeriod.Progress + int_MinPeriod;
-            string strMinutesLable = int_Pos == 1 ? strMinute : strMinute;
-            txt_Progress.Text = int_Pos.ToString()+ " " + strMinutes;
+            string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
+            txt_Progress.Text = int_Pos.ToString()+ " " + strMinutesLable;
         }
 
         private void SetInterfaceLocal(string LocaleName,Context ApplyContext)
@@ -131,7 +130,7 @@ namespace App5
             ApplyContext.Resources.UpdateConfiguration(conf, ApplyContext.Resources.DisplayMetrics);
 
         }
-        public bool SavePresestingData(string Key, string Value)
+        public bool SavePresestingString(string Key, string Value)
         {
             try
             {
@@ -148,7 +147,7 @@ namespace App5
                 return false;
             }
         }
-        public string ReadPresestingData(string Key)
+        public string ReadPresestingString(string Key)
         {
             try
             {
@@ -161,6 +160,45 @@ namespace App5
             {
                 return null;
             }
+        }
+
+        public bool SavePresestingLong(string Key, long Value)
+        {
+            try
+            {
+                ISharedPreferences settings = this.GetSharedPreferences("AutoLock", FileCreationMode.Private);
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+                ISharedPreferencesEditor editor = prefs.Edit();
+                editor.PutLong(Key, Value);
+                editor.Commit();
+                return true;
+            }
+
+            catch 
+            {
+                return false;
+            }
+        }
+        public long ReadPresestingLong(string Key)
+        {
+            try
+            {
+                ISharedPreferences settings = this.GetSharedPreferences("AutoLock", FileCreationMode.Private);
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+                return prefs.GetLong(Key, 0);
+            }
+
+            catch 
+            {
+                return 0;
+            }
+        }
+        public void RestartActivity()
+        {
+            Intent intThisApp= new Intent(this,this.Class);
+            this.Finish();
+            StartActivity(intThisApp);
+
         }
     }
 }

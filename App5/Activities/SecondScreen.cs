@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace App5.Activities
+namespace AutoLock.Activities
 {
     [Activity(Label = "SecondScreen")]
     public class SecondScreen : Activity

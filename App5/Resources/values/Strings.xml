@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Increase</string>
+    <string name="Hello">Start</string>
     <string name="ApplicationName">Test App</string>
   <string name="minute">minute</string>
   <string name="minutes">minutes</string>
