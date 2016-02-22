@@ -1,19 +1,15 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using AutoLock.Activities;
 using Android.Preferences;
-using System.Windows;
-using Android.App.Admin;
-using System.Resources;
 using Android.Content.Res;
-using Android.Util;
 using Java.Util;
 using AutoLock.Logics;
+using Android.Util;
+
 
 namespace AutoLock
 {
@@ -61,8 +57,13 @@ namespace AutoLock
         {
             try
             {
+                if(isServiceRunning())
+                {
+                    Toast.MakeText(this, "Timer already running.", ToastLength.Long);
+                    return;
+                }
                 DateTime dtNow = DateTime.Now;
-                long lngDelay = (sbSetPeriod.Progress + int_MinPeriod) * 36000000;
+                long lngDelay = (sbSetPeriod.Progress + int_MinPeriod) * 60000;
                 SavePresestingLong("StartTime",dtNow.ToBinary());
                 SavePresestingLong("Duration", lngDelay);
                 Intent intService = new Intent(this, typeof(LockService));
@@ -156,7 +157,7 @@ namespace AutoLock
                 return prefs.GetString(Key, "");
             }
 
-            catch (Exception exp)
+            catch 
             {
                 return null;
             }
@@ -199,7 +200,19 @@ namespace AutoLock
             StartActivity(intThisApp);
 
         }
-    }
+        private bool isServiceRunning()
+        {
+            ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
+            foreach (ActivityManager.RunningServiceInfo service in manager.GetRunningServices(int.MaxValue))
+            {
+                Log.WriteLine(LogPriority.Debug, "service name", service.Service.PackageName);
+                if ("Auto_Lock.Auto_Lock" == (service.Service.PackageName)) {
+                return true;
+            }
+        }
+  return false;
+}
+}
 }
 
 
