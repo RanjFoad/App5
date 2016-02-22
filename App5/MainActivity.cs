@@ -38,6 +38,7 @@ namespace AutoLock
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
             Button button = FindViewById<Button>(Resource.Id.MyButton);
+            button.Click += Start_Button_Click;
             txt_Progress = FindViewById<TextView>(Resource.Id.textView1);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.seekBar1);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
@@ -53,27 +54,22 @@ namespace AutoLock
             // Get our button from the layout resource,
             // and attach an event to it
 
+        }
 
-            button.Click += delegate
+        private void Start_Button_Click(object sender, EventArgs e)
+        {
+            try
             {
-                //PopupMenu menu = new PopupMenu(this, button);
-                //menu.MenuItemClick += Menu_MenuItemClick;
-                //menu.Inflate(Resource.Menu.MainMenu);
-                //menu.Show();
-                //devicePolicyManager.LockNow();
+                DateTime dtNow = DateTime.Now;
+                long lngDelay = (sbSetPeriod.Progress + int_MinPeriod) * 36000000;
+                SavePresestingLong("StartTime",dtNow.ToBinary());
+                SavePresestingLong("Duration", lngDelay);
+                Intent intService = new Intent(this, )
 
-                //SetContentView(Resource.Layout.Main);
-
-
-                //var builder = new AlertDialog.Builder(this);
-                //builder.SetMessage("Increased");
-                //builder.SetPositiveButton("OK", (s, e) => { /* do something on OK click */ });
-
-                //builder.Create().Show();
-                Intent int1 = new Intent(this, typeof(SecondScreen));
-                StartActivity(int1);
-
-            };
+            }
+            catch
+            {
+            }
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -83,12 +79,14 @@ namespace AutoLock
             switch (SelectedItem)
             {
                 case Resource.Id.IdEnglish:
+                    if (Lang == "en") break;
                     SetInterfaceLocal("en", this.BaseContext);
                     SavePresestingString("Lang","en");
                     RestartActivity();
                     break;
 
                 case Resource.Id.IdKurdish:
+                    if (Lang == "ku") break;
                     SetInterfaceLocal("ku", this.BaseContext);
                     SavePresestingString("Lang", "ku");
                     RestartActivity();
@@ -100,7 +98,6 @@ namespace AutoLock
             }
             return base.OnOptionsItemSelected(item);
         }
-
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
@@ -119,7 +116,6 @@ namespace AutoLock
             string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
             txt_Progress.Text = int_Pos.ToString()+ " " + strMinutesLable;
         }
-
         private void SetInterfaceLocal(string LocaleName,Context ApplyContext)
         {
             Resources res = ApplyContext.Resources;
@@ -161,7 +157,6 @@ namespace AutoLock
                 return null;
             }
         }
-
         public bool SavePresestingLong(string Key, long Value)
         {
             try
