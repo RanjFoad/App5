@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using System.Timers;
+using Android.App.Admin;
 
 namespace AutoLock.Logics
 {
@@ -26,18 +27,6 @@ namespace AutoLock.Logics
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            //ISharedPreferences prefData = PreferenceManager.GetDefaultSharedPreferences(this);
-            //ISharedPreferencesEditor editor = prefData.Edit();
-            //prefData.GetBoolean("IsStarted", bolIsStarted);
-            //if (bolIsStarted)
-            //{
-            //    prefData.GetLong("StartTime", lngStartTime);
-            //    dtStartTime = DateTime.FromBinary(lngStartTime);
-            //}
-            //else
-            //{
-
-            //}
            
             lngDelay = intent.GetLongExtra("Duration", 0);
             timer = new Timer(lngDelay);
@@ -50,6 +39,8 @@ namespace AutoLock.Logics
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             timer.Stop();
+            DevicePolicyManager dpmDeviceLocker = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
+            dpmDeviceLocker.LockNow();
             //Toast.MakeText(this, "Period elapsed.", ToastLength.Long).Show();
             this.StopSelf();
         }

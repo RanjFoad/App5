@@ -9,7 +9,7 @@ using Android.Content.Res;
 using Java.Util;
 using AutoLock.Logics;
 using Android.Util;
-
+using Android.App.Admin;
 
 namespace AutoLock
 {
@@ -39,15 +39,14 @@ namespace AutoLock
             txt_Progress = FindViewById<TextView>(Resource.Id.textView1);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.seekBar1);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
-
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
-            
-            //DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
-            //ComponentName demoDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
-            //Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
-            //intent.PutExtra(DevicePolicyManager.ExtraDeviceAdmin, demoDeviceAdmin);
-            //intent.PutExtra(DevicePolicyManager.ExtraAddExplanation, "Device administrator");
-            //StartActivity(intent);
+
+            DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
+            ComponentName cnDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
+            Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
+            intent.PutExtra(DevicePolicyManager.ExtraDeviceAdmin, cnDeviceAdmin);
+            intent.PutExtra(DevicePolicyManager.ExtraAddExplanation, "To enable autolock functionality.");
+            StartActivity(intent);
             // Get our button from the layout resource,
             // and attach an event to it
 
