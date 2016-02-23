@@ -12,7 +12,6 @@ namespace AutoLock.Logics
     [Service]
     class LockService : Service
     {
-        bool bolIsCreated, bolIsStarted;
         DateTime dtStartTime;
         long lngStartTime;
         long lngDelay;

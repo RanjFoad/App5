@@ -60,32 +60,35 @@ namespace AutoLock
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080003
-			public const int ExitScreen = 2131230723;
-			
-			// aapt resource value: 0x7f080005
-			public const int IdEnglish = 2131230725;
+			// aapt resource value: 0x7f080004
+			public const int ExitScreen = 2131230724;
 			
 			// aapt resource value: 0x7f080006
-			public const int IdKurdish = 2131230726;
-			
-			// aapt resource value: 0x7f080000
-			public const int MyButton = 2131230720;
-			
-			// aapt resource value: 0x7f080008
-			public const int exit = 2131230728;
+			public const int IdEnglish = 2131230726;
 			
 			// aapt resource value: 0x7f080007
-			public const int help = 2131230727;
+			public const int IdKurdish = 2131230727;
 			
-			// aapt resource value: 0x7f080004
-			public const int lanLanguage = 2131230724;
+			// aapt resource value: 0x7f080003
+			public const int btnStart = 2131230723;
 			
-			// aapt resource value: 0x7f080001
-			public const int seekBar1 = 2131230721;
+			// aapt resource value: 0x7f080009
+			public const int exit = 2131230729;
+			
+			// aapt resource value: 0x7f080008
+			public const int help = 2131230728;
+			
+			// aapt resource value: 0x7f080005
+			public const int lanLanguage = 2131230725;
 			
 			// aapt resource value: 0x7f080002
-			public const int textView1 = 2131230722;
+			public const int linearLayout1 = 2131230722;
+			
+			// aapt resource value: 0x7f080000
+			public const int sbSelectMinutes = 2131230720;
+			
+			// aapt resource value: 0x7f080001
+			public const int tvMinutes = 2131230721;
 			
 			static Id()
 			{

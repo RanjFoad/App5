@@ -34,10 +34,11 @@ namespace AutoLock
             int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            Button button = FindViewById<Button>(Resource.Id.MyButton);
+            Button button = FindViewById<Button>(Resource.Id.btnStart);
             button.Click += Start_Button_Click;
-            txt_Progress = FindViewById<TextView>(Resource.Id.textView1);
-            sbSetPeriod = FindViewById<SeekBar>(Resource.Id.seekBar1);
+            if (isServiceRunning()) button.Enabled = false;
+            txt_Progress = FindViewById<TextView>(Resource.Id.tvMinutes);
+            sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectMinutes);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
 
@@ -69,6 +70,7 @@ namespace AutoLock
                 intService.PutExtra("StartTime", dtNow.ToBinary());
                 intService.PutExtra("Duration", lngDelay);
                 StartService(intService);
+                ((Button)sender).Enabled = false;
 
             }
             catch
@@ -142,7 +144,7 @@ namespace AutoLock
                 return true;
             }
 
-            catch(Exception exp)
+            catch
             {
                 return false;
             }
