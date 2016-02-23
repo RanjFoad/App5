@@ -5,13 +5,13 @@ using Android.Widget;
 
 namespace AutoLock.Activities
 {
-    [Activity(Label = "SecondScreen")]
-    public class SecondScreen : Activity
+    [Activity(Label = "@string/aboutPageTitle")]
+    public class About : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.SecondScreen);
+            SetContentView(Resource.Layout.About);
             Button btn = (Button)FindViewById(Resource.Id.ExitScreen);
             btn.Click += Btn_Click;
 

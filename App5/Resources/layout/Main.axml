@@ -3,11 +3,19 @@
     android:orientation="vertical"
     android:layout_weight="100"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:padding="15px">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="15"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout3" />
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
         android:id="@+id/sbSelectMinutes"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
@@ -33,7 +41,7 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1" />
+        android:id="@+id/linearLayout2" />
     <Button
         android:id="@+id/btnStart"
         android:layout_weight="10"
@@ -46,7 +54,7 @@
         android:layout_gravity="center" />
     <LinearLayout
         android:orientation="vertical"
-        android:layout_weight="75"
+        android:layout_weight="65"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"

@@ -10,10 +10,11 @@ using Java.Util;
 using AutoLock.Logics;
 using Android.Util;
 using Android.App.Admin;
+using AutoLock.Activities;
 
 namespace AutoLock
 {
-    [Activity(Label = "Auto Lock", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
 
@@ -70,7 +71,7 @@ namespace AutoLock
                 intService.PutExtra("StartTime", dtNow.ToBinary());
                 intService.PutExtra("Duration", lngDelay);
                 StartService(intService);
-                ((Button)sender).Enabled = false;
+                this.Finish();
 
             }
             catch
@@ -97,7 +98,10 @@ namespace AutoLock
                     SavePresestingString("Lang", "ku");
                     RestartActivity();
                     break;
-
+                case Resource.Id.help:
+                    Intent intAbout = new Intent(this, typeof(About));
+                    StartActivity(intAbout);
+                    break;
                 case Resource.Id.exit:
                     this.Finish();
                     break;
@@ -121,6 +125,7 @@ namespace AutoLock
             int int_Pos = sbSetPeriod.Progress + int_MinPeriod;
             string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
             txt_Progress.Text = int_Pos.ToString()+ " " + strMinutesLable;
+
         }
         private void SetInterfaceLocal(string LocaleName,Context ApplyContext)
         {

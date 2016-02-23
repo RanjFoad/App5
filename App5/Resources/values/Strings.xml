@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Start</string>
-    <string name="ApplicationName">Test App</string>
+    <string name="Hello">Start and close</string>
+    <string name="ApplicationName">Auto Lock</string>
   <string name="minute">minute</string>
   <string name="minutes">minutes</string>
+  <string name="aboutPageTitle">About</string>
+  <string name="aboutText">Auto lock application is developed by Ranj F. Majeed, it is a simple application with one functionality; to lock the device after a number of minutes. possible minutes arnge from 1 minute to 60 minutes, we strongly encourage setting pin code or password for your device for this app to be usefull.</string>
+  <string name="AboutBackButton">Back</string>
 </resources>

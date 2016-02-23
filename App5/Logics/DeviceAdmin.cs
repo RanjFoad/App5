@@ -3,6 +3,7 @@ using Android.App.Admin;
 using Android.Content;
 using Android.Widget;
 
+
 [BroadcastReceiver(Permission = "android.permission.BIND_DEVICE_ADMIN")]
 [MetaData("android.app.device_admin", Resource = "@xml/device_admin")]
 [IntentFilter(new[] { "android.app.action.DEVICE_ADMIN_ENABLED", Intent.ActionMain })]
