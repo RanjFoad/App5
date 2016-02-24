@@ -16,6 +16,7 @@ namespace AutoLock.Logics
         long lngStartTime;
         long lngDelay;
         private Timer timer;
+        private long lngMiliseconds = 0;
         public override IBinder OnBind(Intent intent)
         {
             return null;
@@ -28,20 +29,30 @@ namespace AutoLock.Logics
         {
            
             lngDelay = intent.GetLongExtra("Duration", 0);
-            timer = new Timer(lngDelay);
+            timer = new Timer(1000);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
-            Toast.MakeText(this, "Timer Started", ToastLength.Long).Show();
+            Toast.MakeText(this, Resources.GetString(Resource.String.TimerStarted), ToastLength.Long).Show();
             return StartCommandResult.RedeliverIntent;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            lngMiliseconds+=1000;
+            if (lngMiliseconds >= lngDelay)
+            { 
             timer.Stop();
             DevicePolicyManager dpmDeviceLocker = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
             dpmDeviceLocker.LockNow();
             //Toast.MakeText(this, "Period elapsed.", ToastLength.Long).Show();
             this.StopSelf();
+            }
+            else
+            {
+                long lngSecondsRemaining = lngDelay - lngMiliseconds;
+                BroadCastMessage("Remaining", lngSecondsRemaining);
+
+            }
         }
 
         public override void OnDestroy()
@@ -49,6 +60,36 @@ namespace AutoLock.Logics
             base.OnDestroy();
             Toast.MakeText(this, "Timer Stopped", ToastLength.Long).Show();
             timer.Dispose();
+        }
+        private void BroadCastMessage(string Key, string Value)
+        {
+            Intent intBroadCast;
+            try
+            {
+                intBroadCast = new Intent(Application.PackageName);
+                intBroadCast.PutExtra(Key,Value);
+                SendBroadcast(intBroadCast);
+            }
+            catch
+            {
+
+            }
+
+        }
+        private void BroadCastMessage(string Key, long Value)
+        {
+            Intent intBroadCast;
+            try
+            {
+                intBroadCast = new Intent(Application.PackageName);
+                intBroadCast.PutExtra(Key, Value);
+                SendBroadcast(intBroadCast);
+            }
+            catch
+            {
+
+            }
+
         }
     }
 }

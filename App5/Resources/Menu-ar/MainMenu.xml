@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/lanLanguage"
-          android:title="زمان"
+          android:title="اللغة"
           android:icon="@drawable/Icon">
       <menu>
         <group android:checkableBehavior="single">
-          <item android:id="@+id/IdEnglish" android:title="ئینگلیزى"></item>
-          <item android:id="@+id/IdKurdish" android:title="کوردى"></item>
-          <item android:id="@+id/IdArabic" android:title="عەرەبی"></item>
+          <item android:id="@+id/IdEnglish" android:title="أنكليزي"></item>
+          <item android:id="@+id/IdKurdish" android:title="كردي"></item>
+          <item android:id="@+id/IdArabic" android:title="عربي"></item>
         </group>
       </menu>
     
   </item>
     <item android:id="@+id/help"
-          android:title="یارمەتى" />
+          android:title="مساعدة" />
     <item android:id="@+id/exit"
-          android:title="دەرچون" />
+          android:title="خروج" />
 </menu>

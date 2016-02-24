@@ -22,6 +22,7 @@ namespace AutoLock
         private int int_MinPeriod, int_MaxPeriod;
         private TextView txt_Progress;
         string Lang;
+        private BroadcastReceiver brReciever;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -37,7 +38,13 @@ namespace AutoLock
             SetContentView(Resource.Layout.Main);
             Button button = FindViewById<Button>(Resource.Id.btnStart);
             button.Click += Start_Button_Click;
-            if (isServiceRunning()) button.Enabled = false;
+            if (isServiceRunning())
+            {
+                button.Enabled = false;
+                brReciever = new BroadcastReceiver();
+
+
+            }
             txt_Progress = FindViewById<TextView>(Resource.Id.tvMinutes);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectMinutes);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
@@ -49,8 +56,6 @@ namespace AutoLock
             intent.PutExtra(DevicePolicyManager.ExtraDeviceAdmin, cnDeviceAdmin);
             intent.PutExtra(DevicePolicyManager.ExtraAddExplanation, "To enable autolock functionality.");
             StartActivity(intent);
-            // Get our button from the layout resource,
-            // and attach an event to it
 
         }
 
@@ -96,6 +101,13 @@ namespace AutoLock
                     if (Lang == "ku") break;
                     SetInterfaceLocal("ku", this.BaseContext);
                     SavePresestingString("Lang", "ku");
+                    RestartActivity();
+                    break;
+
+                case Resource.Id.IdArabic:
+                    if (Lang == "ar") break;
+                    SetInterfaceLocal("ar", this.BaseContext);
+                    SavePresestingString("Lang", "ar");
                     RestartActivity();
                     break;
                 case Resource.Id.help:

@@ -7,6 +7,7 @@
         <group android:checkableBehavior="single">
           <item android:id="@+id/IdEnglish" android:title="English"></item>
           <item android:id="@+id/IdKurdish" android:title="Kurdish"></item>
+          <item android:id="@+id/IdArabic" android:title="Arabic"></item>
         </group>
       </menu>
     
