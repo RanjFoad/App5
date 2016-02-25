@@ -41,7 +41,7 @@ namespace AutoLock
             if (isServiceRunning())
             {
                 button.Enabled = false;
-                brReciever = new BroadcastReceiver();
+                //brReciever = new BroadcastReceiver();
 
 
             }
