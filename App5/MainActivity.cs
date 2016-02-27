@@ -20,9 +20,12 @@ namespace AutoLock
 
         private SeekBar sbSetPeriod;
         private int int_MinPeriod, int_MaxPeriod;
-        private TextView txt_Progress;
+        private TextView tvMinutes;
         string Lang;
         private BroadcastReceiver brReciever;
+
+        Button btnStart;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -36,16 +39,10 @@ namespace AutoLock
             int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            Button button = FindViewById<Button>(Resource.Id.btnStart);
-            button.Click += Start_Button_Click;
-            if (isServiceRunning())
-            {
-                button.Enabled = false;
-                //brReciever = new BroadcastReceiver();
-
-
-            }
-            txt_Progress = FindViewById<TextView>(Resource.Id.tvMinutes);
+            btnStart = FindViewById<Button>(Resource.Id.btnStart);
+            btnStart.Click += Start_Button_Click;
+           
+            tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectMinutes);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
@@ -83,7 +80,7 @@ namespace AutoLock
             {
             }
         }
-
+        
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
 
@@ -125,8 +122,10 @@ namespace AutoLock
             MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
             if (Lang == "ku")
                 menu.FindItem(Resource.Id.IdKurdish).SetChecked( true);
+            else if(Lang=="ar")
+                menu.FindItem(Resource.Id.IdArabic).SetChecked(true);
             else
-                menu.FindItem(Resource.Id.IdEnglish).SetChecked(true);
+            menu.FindItem(Resource.Id.IdEnglish).SetChecked(true);
             return base.OnCreateOptionsMenu(menu);
         }
         private void SbSetPeriod_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
@@ -136,7 +135,7 @@ namespace AutoLock
             strMinutes = Resources.GetString(Resource.String.minutes);
             int int_Pos = sbSetPeriod.Progress + int_MinPeriod;
             string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
-            txt_Progress.Text = int_Pos.ToString()+ " " + strMinutesLable;
+            tvMinutes.Text = int_Pos.ToString()+ " " + strMinutesLable;
 
         }
         private void SetInterfaceLocal(string LocaleName,Context ApplyContext)
@@ -224,12 +223,31 @@ namespace AutoLock
             foreach (ActivityManager.RunningServiceInfo service in manager.GetRunningServices(int.MaxValue))
             {
                 Log.WriteLine(LogPriority.Debug, "service name", service.Service.PackageName);
-                if ("Auto_Lock.Auto_Lock" == (service.Service.PackageName)) {
+                if ("com.rasoft.autolock" == (service.Service.PackageName).ToLower()) {
                 return true;
             }
         }
   return false;
 }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            if (isServiceRunning())
+            {
+                btnStart.Enabled = false;
+                sbSetPeriod.Enabled = false;
+                tvMinutes.Visibility = ViewStates.Invisible;
+                //brReciever = new BroadcastReceiver();
+            }
+            else
+            {
+                btnStart.Enabled = true;
+                sbSetPeriod.Enabled = true;
+                tvMinutes.Visibility = ViewStates.Visible;
+            }
+        }
+        
+
 }
 }
 

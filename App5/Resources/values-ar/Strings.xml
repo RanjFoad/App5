@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Start and close</string>
+    <string name="Hello">أبدء وأغلق</string>
     <string name="ApplicationName">Auto Lock</string>
   <string name="minute">دقيقة</string>
   <string name="minutes">دقائق</string>
