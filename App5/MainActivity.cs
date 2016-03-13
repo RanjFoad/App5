@@ -22,7 +22,8 @@ namespace AutoLock
         private int int_MinPeriod, int_MaxPeriod;
         private TextView tvMinutes;
         string Lang;
-        private BroadcastReceiver brReciever;
+        private MessageRecever brReciever;
+        private IntentFilter intentService;
 
         Button btnStart;
 
@@ -30,23 +31,33 @@ namespace AutoLock
         {
             base.OnCreate(bundle);
 
+            brReciever = new MessageRecever();
+            intentService = new IntentFilter(Application.PackageName);
+
+
+
+            //Set interface language
             Lang = ReadPresestingString("Lang");
             SetInterfaceLocal(Lang, this.BaseContext);
-
-
-
+            
+            //Set min and max of the seekbar of the time to wait before lock device
             int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
             int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
-            btnStart = FindViewById<Button>(Resource.Id.btnStart);
-            btnStart.Click += Start_Button_Click;
-           
-            tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectMinutes);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
 
+            // Set our view from the "main" layout resource
+            SetContentView(Resource.Layout.Main);
+
+            //Set the start button click procedure
+            btnStart = FindViewById<Button>(Resource.Id.btnStart);
+            btnStart.Click += Start_Button_Click;
+           
+            //Assign textview of the selected numbers of minutes
+            tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
+            
+            //Using PolicyManager ask for admin privilige to be able to lock device, will ask once.
             DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
             ComponentName cnDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
             Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
@@ -232,11 +243,13 @@ namespace AutoLock
         protected override void OnResume()
         {
             base.OnResume();
+
             if (isServiceRunning())
             {
                 btnStart.Enabled = false;
                 sbSetPeriod.Enabled = false;
                 tvMinutes.Visibility = ViewStates.Invisible;
+                RegisterReceiver(brReciever, intentService);
                 //brReciever = new BroadcastReceiver();
             }
             else
@@ -246,9 +259,26 @@ namespace AutoLock
                 tvMinutes.Visibility = ViewStates.Visible;
             }
         }
-        
+        protected override void OnPause()
+        {
+            base.OnPause();
+            UnregisterReceiver(brReciever);
+        }
 
-}
+
+    }
+    [BroadcastReceiver(Enabled = true)]
+    public class MessageRecever : BroadcastReceiver
+    {
+        public override void OnReceive(Context context, Intent intent)
+        {
+            long lngRemainingTime = intent.GetLongExtra("RemainingSeconds", 0);
+            int intSeconds = Convert.ToInt32(lngRemainingTime/1000);
+            String strFormattedRemaining = String.Format("Time remaining {0,2}:{1,2} minutes.", Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds% 60));
+            TextView tvRemaining = ((Activity)context).FindViewById<TextView>(Resource.Id.tvRemaining);
+            tvRemaining.Text = strFormattedRemaining;
+        }
+    }
 }
 
 

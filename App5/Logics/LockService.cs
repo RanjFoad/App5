@@ -50,7 +50,7 @@ namespace AutoLock.Logics
             else
             {
                 long lngSecondsRemaining = lngDelay - lngMiliseconds;
-                BroadCastMessage("Remaining", lngSecondsRemaining);
+                BroadCastMessage("RemainingSeconds", lngSecondsRemaining);
 
             }
         }
