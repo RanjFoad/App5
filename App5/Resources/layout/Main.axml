@@ -11,12 +11,11 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout3" />
+        android:layout_height="wrap_content" />
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sbSelectMinutes"
+        android:id="@+id/sbSelectedMinutes"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:backgroundTint="#00ffffff"
