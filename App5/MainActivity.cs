@@ -31,15 +31,14 @@ namespace AutoLock
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            //Set interface language
+            Lang = ReadPresestingString("Lang");
+            SetInterfaceLocal(Lang, this.BaseContext);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
             brReciever = new MessageRecever(this);
             intentService = new IntentFilter(Application.PackageName);
-
-            //Set interface language
-            Lang = ReadPresestingString("Lang");
-            SetInterfaceLocal(Lang, this.BaseContext);
 
             //Assign textview of the selected numbers of minutes, and time remaining
             tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
@@ -75,12 +74,12 @@ namespace AutoLock
                     return;
                 }
                 DateTime dtNow = DateTime.Now;
-                long lngDelay = (sbSetPeriod.Progress + int_MinPeriod) * 60000;
-                SavePresestingLong("StartTime",dtNow.ToBinary());
-                SavePresestingLong("Duration", lngDelay);
+                double dblDelay = (sbSetPeriod.Progress + int_MinPeriod) * 60000;
+                //SavePresestingLong("StartTime",dtNow.ToBinary());
+                //SavePresestingLong("Duration", lngDelay);
                 Intent intService = new Intent(this, typeof(LockService));
                 intService.PutExtra("StartTime", dtNow.ToBinary());
-                intService.PutExtra("Duration", lngDelay);
+                intService.PutExtra("Duration", dblDelay);
                 StartService(intService);
                 RegisterReceiver(brReciever, intentService);
                 this.Finish();
@@ -220,6 +219,7 @@ namespace AutoLock
                 return 0;
             }
         }
+
         public void RestartActivity()
         {
             Intent intThisApp= new Intent(this,this.Class);
@@ -280,7 +280,8 @@ namespace AutoLock
 
 
 
-        //-----Broadcast receiver implementation
+        //-----Broadcast receiver implementation-----------------------------------
+        //-------------------------------------------------------------------------
         [BroadcastReceiver(Enabled = true)]
         private class MessageRecever : BroadcastReceiver
         {
@@ -295,7 +296,7 @@ namespace AutoLock
             public override void OnReceive(Context context, Intent intent)
             {
                 string strFormat = cntxMainActivity.GetString(Resource.String.TimeRemaining);
-                long lngRemainingTime = intent.GetLongExtra("RemainingSeconds", 0);
+                double lngRemainingTime = intent.GetDoubleExtra("RemainingSeconds", 0);
                 int intSeconds = Convert.ToInt32(lngRemainingTime / 1000);
                 String strFormattedRemaining = String.Format(strFormat, Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds % 60));
                 //

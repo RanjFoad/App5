@@ -12,7 +12,8 @@ namespace AutoLock.Logics
     [Service]
     class LockService : Service
     {
-        long lngDelay;
+        DateTime dtEndTime;
+        double dblDelay;
         private Timer timer;
         private long lngMiliseconds = 0;
         public override IBinder OnBind(Intent intent)
@@ -23,8 +24,9 @@ namespace AutoLock.Logics
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-           
-            lngDelay = intent.GetLongExtra("Duration", 0);
+            dblDelay = intent.GetDoubleExtra("Duration", 0);
+            long lngStartTime = intent.GetLongExtra("StartTime", 0);
+            dtEndTime = DateTime.FromBinary(lngStartTime).AddMilliseconds(dblDelay);
             timer = new Timer(1000);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
@@ -34,18 +36,18 @@ namespace AutoLock.Logics
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            lngMiliseconds+=1000;
-            if (lngMiliseconds >= lngDelay)
+            DateTime dtNow = DateTime.Now;
+            lngMiliseconds +=1000;
+            if (dtNow >= dtEndTime)
             { 
             timer.Stop();
             DevicePolicyManager dpmDeviceLocker = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
             dpmDeviceLocker.LockNow();
-            //Toast.MakeText(this, "Period elapsed.", ToastLength.Long).Show();
             this.StopSelf();
             }
             else
             {
-                    long lngSecondsRemaining = lngDelay - lngMiliseconds;
+                    double lngSecondsRemaining = (dtEndTime-dtNow).TotalMilliseconds;
                     BroadCastMessage("RemainingSeconds", lngSecondsRemaining);
             }
         }
@@ -71,7 +73,7 @@ namespace AutoLock.Logics
             }
 
         }
-        private void BroadCastMessage(string Key, long Value)
+        private void BroadCastMessage(string Key, double Value)
         {
             Intent intBroadCast;
             try
