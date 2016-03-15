@@ -17,6 +17,7 @@ namespace AutoLock.Logics
         private long lngMiliseconds = 0;
         public override IBinder OnBind(Intent intent)
         {
+            //Nothing
             return null;
         }
 
