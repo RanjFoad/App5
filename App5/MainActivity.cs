@@ -21,6 +21,7 @@ namespace AutoLock
         private SeekBar sbSetPeriod;
         private int int_MinPeriod, int_MaxPeriod;
         private TextView tvMinutes;
+        private TextView tvRemaining;
         string Lang;
         private MessageRecever brReciever;
         private IntentFilter intentService;
@@ -33,15 +34,16 @@ namespace AutoLock
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            brReciever = new MessageRecever(this.BaseContext);
+            brReciever = new MessageRecever(this);
             intentService = new IntentFilter(Application.PackageName);
 
             //Set interface language
             Lang = ReadPresestingString("Lang");
             SetInterfaceLocal(Lang, this.BaseContext);
 
-            //Assign textview of the selected numbers of minutes
+            //Assign textview of the selected numbers of minutes, and time remaining
             tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
+            tvRemaining = FindViewById<TextView>(Resource.Id.tvRemaining);
             //Set min and max of the seekbar of the time to wait before lock device
             int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
             int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
@@ -246,14 +248,16 @@ namespace AutoLock
                 btnStart.Enabled = false;
                 sbSetPeriod.Enabled = false;
                 tvMinutes.Visibility = ViewStates.Invisible;
+                tvRemaining.Visibility = ViewStates.Visible;
                 RegisterReceiver(brReciever, intentService);
-                //brReciever = new BroadcastReceiver();
+                
             }
             else
             {
                 btnStart.Enabled = true;
                 sbSetPeriod.Enabled = true;
                 tvMinutes.Visibility = ViewStates.Visible;
+                tvRemaining.Visibility = ViewStates.Invisible;
             }
         }
         protected override void OnPause()
@@ -267,31 +271,41 @@ namespace AutoLock
             { Toast.MakeText(this, ex.Message, ToastLength.Long).Show(); }
         }
 
+        private void UpdateTimeRemainingText(string TimeRemaingText)
+        {
 
-    }
-    [BroadcastReceiver(Enabled = true)]
-    public class MessageRecever : BroadcastReceiver
-    {
-        private Context cntxMainActivity;
-        public MessageRecever(Context context)
-        {
-            cntxMainActivity = context; }
-        public MessageRecever()
-        {
+            tvRemaining.Text = TimeRemaingText;
         }
-        public override void OnReceive(Context context, Intent intent)
+
+
+
+
+        //-----Broadcast receiver implementation
+        [BroadcastReceiver(Enabled = true)]
+        private class MessageRecever : BroadcastReceiver
         {
-            
-            
-            string strFormat = cntxMainActivity.GetString(Resource.String.TimeRemaining);
-            long lngRemainingTime = intent.GetLongExtra("RemainingSeconds", 0);
-            int intSeconds = Convert.ToInt32(lngRemainingTime/1000);
-            String strFormattedRemaining = String.Format(strFormat, Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds% 60));
-            TextView tvRemaining = cntxMainActivity.GetDrawable(Resource.Id.tvRemaining);
-            tvRemaining.Text = strFormattedRemaining;
-            //Toast.MakeText(context, strFormattedRemaining, ToastLength.Long).Show();
+            private MainActivity cntxMainActivity;
+            public MessageRecever(MainActivity context)
+            {
+                cntxMainActivity = context;
+            }
+            public MessageRecever()
+            {
+            }
+            public override void OnReceive(Context context, Intent intent)
+            {
+                string strFormat = cntxMainActivity.GetString(Resource.String.TimeRemaining);
+                long lngRemainingTime = intent.GetLongExtra("RemainingSeconds", 0);
+                int intSeconds = Convert.ToInt32(lngRemainingTime / 1000);
+                String strFormattedRemaining = String.Format(strFormat, Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds % 60));
+                //
+                //tvRemaining.Text = strFormattedRemaining;
+                //Toast.MakeText(context, strFormattedRemaining, ToastLength.Long).Show();
+                cntxMainActivity.UpdateTimeRemainingText(strFormattedRemaining);
+            }
         }
     }
+    
 }
 
 

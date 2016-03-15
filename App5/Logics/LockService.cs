@@ -12,8 +12,6 @@ namespace AutoLock.Logics
     [Service]
     class LockService : Service
     {
-        DateTime dtStartTime;
-        long lngStartTime;
         long lngDelay;
         private Timer timer;
         private long lngMiliseconds = 0;
@@ -21,8 +19,6 @@ namespace AutoLock.Logics
         {
             return null;
         }
-
-
 
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
@@ -49,12 +45,8 @@ namespace AutoLock.Logics
             }
             else
             {
-                if (lngMiliseconds % 10000 == 0)
-                {
                     long lngSecondsRemaining = lngDelay - lngMiliseconds;
                     BroadCastMessage("RemainingSeconds", lngSecondsRemaining);
-                }
-
             }
         }
 
