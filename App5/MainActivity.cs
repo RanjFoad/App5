@@ -14,7 +14,7 @@ using AutoLock.Activities;
 
 namespace AutoLock
 {
-    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "@string/ApplicationName", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : Activity
     {
 
@@ -39,7 +39,7 @@ namespace AutoLock
 
             brReciever = new MessageRecever(this);
             intentService = new IntentFilter(Application.PackageName);
-
+            
             //Assign textview of the selected numbers of minutes, and time remaining
             tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
             tvRemaining = FindViewById<TextView>(Resource.Id.tvRemaining);
@@ -49,7 +49,7 @@ namespace AutoLock
             sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectedMinutes);
             sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
             sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
-
+            
             //Set the start button click procedure
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
             btnStart.Click += Start_Button_Click;

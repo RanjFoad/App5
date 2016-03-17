@@ -60,47 +60,47 @@ namespace AutoLock
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080001
-			public const int ExitScreen = 2131230721;
+			// aapt resource value: 0x7f090001
+			public const int ExitScreen = 2131296257;
 			
-			// aapt resource value: 0x7f08000b
-			public const int IdArabic = 2131230731;
+			// aapt resource value: 0x7f09000b
+			public const int IdArabic = 2131296267;
 			
-			// aapt resource value: 0x7f080009
-			public const int IdEnglish = 2131230729;
+			// aapt resource value: 0x7f090009
+			public const int IdEnglish = 2131296265;
 			
-			// aapt resource value: 0x7f08000a
-			public const int IdKurdish = 2131230730;
+			// aapt resource value: 0x7f09000a
+			public const int IdKurdish = 2131296266;
 			
-			// aapt resource value: 0x7f080005
-			public const int btnStart = 2131230725;
+			// aapt resource value: 0x7f090005
+			public const int btnStart = 2131296261;
 			
-			// aapt resource value: 0x7f08000d
-			public const int exit = 2131230733;
+			// aapt resource value: 0x7f09000d
+			public const int exit = 2131296269;
 			
-			// aapt resource value: 0x7f08000c
-			public const int help = 2131230732;
+			// aapt resource value: 0x7f09000c
+			public const int help = 2131296268;
 			
-			// aapt resource value: 0x7f080008
-			public const int lanLanguage = 2131230728;
+			// aapt resource value: 0x7f090008
+			public const int lanLanguage = 2131296264;
 			
-			// aapt resource value: 0x7f080006
-			public const int linearLayout1 = 2131230726;
+			// aapt resource value: 0x7f090006
+			public const int linearLayout1 = 2131296262;
 			
-			// aapt resource value: 0x7f080004
-			public const int linearLayout2 = 2131230724;
+			// aapt resource value: 0x7f090004
+			public const int linearLayout2 = 2131296260;
 			
-			// aapt resource value: 0x7f080002
-			public const int sbSelectedMinutes = 2131230722;
+			// aapt resource value: 0x7f090002
+			public const int sbSelectedMinutes = 2131296258;
 			
-			// aapt resource value: 0x7f080000
-			public const int textView1 = 2131230720;
+			// aapt resource value: 0x7f090000
+			public const int textView1 = 2131296256;
 			
-			// aapt resource value: 0x7f080003
-			public const int tvMinutes = 2131230723;
+			// aapt resource value: 0x7f090003
+			public const int tvMinutes = 2131296259;
 			
-			// aapt resource value: 0x7f080007
-			public const int tvRemaining = 2131230727;
+			// aapt resource value: 0x7f090007
+			public const int tvRemaining = 2131296263;
 			
 			static Id()
 			{
@@ -115,11 +115,11 @@ namespace AutoLock
 		public partial class Integer
 		{
 			
-			// aapt resource value: 0x7f050001
-			public const int maxPeriod = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int maxPeriod = 2131099649;
 			
-			// aapt resource value: 0x7f050000
-			public const int minPeriod = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int minPeriod = 2131099648;
 			
 			static Integer()
 			{
@@ -134,11 +134,11 @@ namespace AutoLock
 		public partial class Layout
 		{
 			
-			// aapt resource value: 0x7f030000
-			public const int About = 2130903040;
+			// aapt resource value: 0x7f040000
+			public const int About = 2130968576;
 			
-			// aapt resource value: 0x7f030001
-			public const int Main = 2130903041;
+			// aapt resource value: 0x7f040001
+			public const int Main = 2130968577;
 			
 			static Layout()
 			{
@@ -153,8 +153,8 @@ namespace AutoLock
 		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f070000
-			public const int MainMenu = 2131165184;
+			// aapt resource value: 0x7f080000
+			public const int MainMenu = 2131230720;
 			
 			static Menu()
 			{
@@ -166,35 +166,51 @@ namespace AutoLock
 			}
 		}
 		
+		public partial class Mipmap
+		{
+			
+			// aapt resource value: 0x7f030000
+			public const int ic_launcher = 2130903040;
+			
+			static Mipmap()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Mipmap()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060006
-			public const int AboutBackButton = 2131099654;
+			// aapt resource value: 0x7f070006
+			public const int AboutBackButton = 2131165190;
 			
-			// aapt resource value: 0x7f060001
-			public const int ApplicationName = 2131099649;
+			// aapt resource value: 0x7f070001
+			public const int ApplicationName = 2131165185;
 			
-			// aapt resource value: 0x7f060000
-			public const int Hello = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int Hello = 2131165184;
 			
-			// aapt resource value: 0x7f060008
-			public const int TimeRemaining = 2131099656;
+			// aapt resource value: 0x7f070008
+			public const int TimeRemaining = 2131165192;
 			
-			// aapt resource value: 0x7f060007
-			public const int TimerStarted = 2131099655;
+			// aapt resource value: 0x7f070007
+			public const int TimerStarted = 2131165191;
 			
-			// aapt resource value: 0x7f060004
-			public const int aboutPageTitle = 2131099652;
+			// aapt resource value: 0x7f070004
+			public const int aboutPageTitle = 2131165188;
 			
-			// aapt resource value: 0x7f060005
-			public const int aboutText = 2131099653;
+			// aapt resource value: 0x7f070005
+			public const int aboutText = 2131165189;
 			
-			// aapt resource value: 0x7f060002
-			public const int minute = 2131099650;
+			// aapt resource value: 0x7f070002
+			public const int minute = 2131165186;
 			
-			// aapt resource value: 0x7f060003
-			public const int minutes = 2131099651;
+			// aapt resource value: 0x7f070003
+			public const int minutes = 2131165187;
 			
 			static String()
 			{
@@ -209,8 +225,8 @@ namespace AutoLock
 		public partial class Xml
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int device_admin = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int device_admin = 2131034112;
 			
 			static Xml()
 			{
