@@ -11,6 +11,7 @@ using AutoLock.Logics;
 using Android.Util;
 using Android.App.Admin;
 using AutoLock.Activities;
+using Android.Content.PM;
 
 namespace AutoLock
 {
@@ -32,38 +33,41 @@ namespace AutoLock
         {
             base.OnCreate(bundle);
             //Set interface language
-            Lang = ReadPresestingString("Lang");
-            SetInterfaceLocal(Lang, this.BaseContext);
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
+            try {
+                Lang = ReadPresestingString("Lang");
+                SetInterfaceLocal(Lang, this.BaseContext);
+                // Set our view from the "main" layout resource
+                SetContentView(Resource.Layout.Main);
 
-            brReciever = new MessageRecever(this);
-            intentService = new IntentFilter(Application.PackageName);
-            
-            //Assign textview of the selected numbers of minutes, and time remaining
-            tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
-            tvRemaining = FindViewById<TextView>(Resource.Id.tvRemaining);
-            //Set min and max of the seekbar of the time to wait before lock device
-            int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
-            int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
-            sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectedMinutes);
-            sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
-            sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
-            
-            //Set the start button click procedure
-            btnStart = FindViewById<Button>(Resource.Id.btnStart);
-            btnStart.Click += Start_Button_Click;
-            
-            //Using PolicyManager ask for admin privilige to be able to lock device, will ask once.
-            DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
-            ComponentName cnDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
-            Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
-            intent.PutExtra(DevicePolicyManager.ExtraDeviceAdmin, cnDeviceAdmin);
-            intent.PutExtra(DevicePolicyManager.ExtraAddExplanation, "To enable autolock functionality.");
-            StartActivity(intent);
+                brReciever = new MessageRecever(this);
+                intentService = new IntentFilter(Application.PackageName);
 
+                //Assign textview of the selected numbers of minutes, and time remaining
+                tvMinutes = FindViewById<TextView>(Resource.Id.tvMinutes);
+                tvRemaining = FindViewById<TextView>(Resource.Id.tvRemaining);
+                //Set min and max of the seekbar of the time to wait before lock device
+                int_MaxPeriod = Resources.GetInteger(Resource.Integer.maxPeriod);
+                int_MinPeriod = Resources.GetInteger(Resource.Integer.minPeriod);
+                sbSetPeriod = FindViewById<SeekBar>(Resource.Id.sbSelectedMinutes);
+                sbSetPeriod.ProgressChanged += SbSetPeriod_ProgressChanged;
+                sbSetPeriod.Max = int_MaxPeriod - int_MinPeriod;
+
+                //Set the start button click procedure
+                btnStart = FindViewById<Button>(Resource.Id.btnStart);
+                btnStart.Click += Start_Button_Click;
+
+                //Using PolicyManager ask for admin privilige to be able to lock device, will ask once.
+                DevicePolicyManager devicePolicyManager = (DevicePolicyManager)GetSystemService(Context.DevicePolicyService);
+                ComponentName cnDeviceAdmin = new ComponentName(this, Java.Lang.Class.FromType(typeof(DeviceAdmin)));
+                Intent intent = new Intent(DevicePolicyManager.ActionAddDeviceAdmin);
+                intent.PutExtra(DevicePolicyManager.ExtraDeviceAdmin, cnDeviceAdmin);
+                intent.PutExtra(DevicePolicyManager.ExtraAddExplanation, "To enable autolock functionality.");
+                StartActivity(intent);
+                
+            }
+            catch(Exception ex)
+            { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); }
         }
-
         private void Start_Button_Click(object sender, EventArgs e)
         {
             try
@@ -88,8 +92,7 @@ namespace AutoLock
             catch
             {
             }
-        }
-        
+        }     
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
 
@@ -139,22 +142,30 @@ namespace AutoLock
         }
         private void SbSetPeriod_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            string strMinute, strMinutes;
-            strMinute = Resources.GetString(Resource.String.minute);
-            strMinutes = Resources.GetString(Resource.String.minutes);
-            int int_Pos = sbSetPeriod.Progress + int_MinPeriod;
-            string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
-            tvMinutes.Text = int_Pos.ToString()+ " " + strMinutesLable;
+            try {
+                string strMinute, strMinutes;
+                strMinute = Resources.GetString(Resource.String.minute);
+                strMinutes = Resources.GetString(Resource.String.minutes);
+                int int_Pos = sbSetPeriod.Progress + int_MinPeriod;
+                string strMinutesLable = int_Pos == 1 ? strMinute : strMinutes;
+                tvMinutes.Text = int_Pos.ToString() + " " + strMinutesLable;
+            }
+            catch(Exception ex)
+            { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); }
 
         }
         private void SetInterfaceLocal(string LocaleName,Context ApplyContext)
         {
-            Resources res = ApplyContext.Resources;
-            Locale lclKurdish = new Locale(LocaleName);
-            Locale.Default = lclKurdish;
-            Configuration conf = res.Configuration;
-            conf.Locale = lclKurdish;
-            ApplyContext.Resources.UpdateConfiguration(conf, ApplyContext.Resources.DisplayMetrics);
+            try {
+                Resources res = ApplyContext.Resources;
+                Locale lclKurdish = new Locale(LocaleName);
+                Locale.Default = lclKurdish;
+                Configuration conf = res.Configuration;
+                conf.Locale = lclKurdish;
+                ApplyContext.Resources.UpdateConfiguration(conf, ApplyContext.Resources.DisplayMetrics);
+            }
+            catch(Exception ex)
+             { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); }
 
         }
         public bool SavePresestingString(string Key, string Value)
@@ -169,8 +180,8 @@ namespace AutoLock
                 return true;
             }
 
-            catch
-            {
+            catch(Exception ex)
+            { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show();
                 return false;
             }
         }
@@ -183,8 +194,9 @@ namespace AutoLock
                 return prefs.GetString(Key, "");
             }
 
-            catch 
+            catch  (Exception ex)
             {
+                Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); 
                 return null;
             }
         }
@@ -200,10 +212,11 @@ namespace AutoLock
                 return true;
             }
 
-            catch 
+            catch (Exception ex)
             {
+                Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); 
                 return false;
-            }
+             }
         }
         public long ReadPresestingLong(string Key)
         {
@@ -214,12 +227,12 @@ namespace AutoLock
                 return prefs.GetLong(Key, 0);
             }
 
-            catch 
+            catch (Exception ex)
             {
+                Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); 
                 return 0;
             }
         }
-
         public void RestartActivity()
         {
             Intent intThisApp= new Intent(this,this.Class);
@@ -229,35 +242,48 @@ namespace AutoLock
         }
         private bool isServiceRunning()
         {
+            try
+            { 
             ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
-            foreach (ActivityManager.RunningServiceInfo service in manager.GetRunningServices(int.MaxValue))
-            {
-                Log.WriteLine(LogPriority.Debug, "service name", service.Service.PackageName);
-                if ("com.rasoft.autolock" == (service.Service.PackageName).ToLower()) {
-                return true;
+                foreach (ActivityManager.RunningServiceInfo service in manager.GetRunningServices(int.MaxValue))
+                {
+                    if ("com.rasoft.autolock" == (service.Service.PackageName).ToLower()) {
+                        return true;
+                    }
+                }
+                return false;
             }
-        }
-  return false;
+            catch(Exception ex)
+            { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show();
+                return false;
+            }
 }
         protected override void OnResume()
         {
             base.OnResume();
 
-            if (isServiceRunning())
+            try
             {
-                btnStart.Enabled = false;
-                sbSetPeriod.Enabled = false;
-                tvMinutes.Visibility = ViewStates.Invisible;
-                tvRemaining.Visibility = ViewStates.Visible;
-                RegisterReceiver(brReciever, intentService);
-                
+                if (isServiceRunning())
+                {
+                    btnStart.Enabled = false;
+                    sbSetPeriod.Enabled = false;
+                    tvMinutes.Visibility = ViewStates.Invisible;
+                    tvRemaining.Visibility = ViewStates.Visible;
+                    RegisterReceiver(brReciever, intentService);
+
+                }
+                else
+                {
+                    btnStart.Enabled = true;
+                    sbSetPeriod.Enabled = true;
+                    tvMinutes.Visibility = ViewStates.Visible;
+                    tvRemaining.Visibility = ViewStates.Invisible;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                btnStart.Enabled = true;
-                sbSetPeriod.Enabled = true;
-                tvMinutes.Visibility = ViewStates.Visible;
-                tvRemaining.Visibility = ViewStates.Invisible;
+                Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show();
             }
         }
         protected override void OnPause()
@@ -270,14 +296,11 @@ namespace AutoLock
             catch(Exception ex)
             { Toast.MakeText(this, ex.Message, ToastLength.Long).Show(); }
         }
-
         private void UpdateTimeRemainingText(string TimeRemaingText)
         {
 
             tvRemaining.Text = TimeRemaingText;
         }
-
-
 
 
         //-----Broadcast receiver implementation-----------------------------------
@@ -295,14 +318,19 @@ namespace AutoLock
             }
             public override void OnReceive(Context context, Intent intent)
             {
-                string strFormat = cntxMainActivity.GetString(Resource.String.TimeRemaining);
-                double lngRemainingTime = intent.GetDoubleExtra("RemainingSeconds", 0);
-                int intSeconds = Convert.ToInt32(lngRemainingTime / 1000);
-                String strFormattedRemaining = String.Format(strFormat, Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds % 60));
-                //
-                //tvRemaining.Text = strFormattedRemaining;
-                //Toast.MakeText(context, strFormattedRemaining, ToastLength.Long).Show();
-                cntxMainActivity.UpdateTimeRemainingText(strFormattedRemaining);
+                try
+                {
+                    string strFormat = cntxMainActivity.GetString(Resource.String.TimeRemaining);
+                    double lngRemainingTime = intent.GetDoubleExtra("RemainingSeconds", 0);
+                    int intSeconds = Convert.ToInt32(lngRemainingTime / 1000);
+                    String strFormattedRemaining = String.Format(strFormat, Convert.ToInt32(intSeconds / 60), Convert.ToInt32(intSeconds % 60));
+                    //
+                    //tvRemaining.Text = strFormattedRemaining;
+                    //Toast.MakeText(context, strFormattedRemaining, ToastLength.Long).Show();
+                    cntxMainActivity.UpdateTimeRemainingText(strFormattedRemaining);
+                }
+                catch(Exception ex)
+                { Toast.MakeText(context, ex.Message, ToastLength.Long).Show(); }
             }
         }
     }

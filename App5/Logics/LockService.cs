@@ -20,8 +20,7 @@ namespace AutoLock.Logics
         {
             return null;
         }
-
-        [return: GeneratedEnum]
+        //[return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
             try {
@@ -40,7 +39,6 @@ namespace AutoLock.Logics
                 return StartCommandResult.RedeliverIntent;
             }
         }
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try {
@@ -62,7 +60,6 @@ namespace AutoLock.Logics
             catch(Exception ex)
             { Toast.MakeText(this, "Error:" + ex.Message, ToastLength.Long).Show(); }
         }
-
         public override void OnDestroy()
         {
             base.OnDestroy();
